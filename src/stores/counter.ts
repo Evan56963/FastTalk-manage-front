@@ -1,12 +1,17 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+export const useAuthStore = defineStore("auth", {
+  state: () => ({
+    token: localStorage.getItem("token") || ""
+  }),
+  actions: {
+    setToken(token: string) {
+      this.token = token;
+      localStorage.setItem("token", token);
+    },
+    logout() {
+      this.token = "";
+      localStorage.removeItem("token");
+    }
   }
-
-  return { count, doubleCount, increment }
-})
+});
