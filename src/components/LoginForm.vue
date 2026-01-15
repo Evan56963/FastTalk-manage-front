@@ -1,21 +1,24 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { login } from '@/api/auth'
 
 const username = ref('')
 const password = ref('')
 const auth = useAuthStore()
+const router = useRouter()
 
 const handleSubmit = async () => {
-    try{
-        const response =  await login(username.value, password.value)
+    const response =  await login(username.value, password.value)
+    if ('access_token' in response){
         auth.setToken(response.access_token)
-        // 這裡可以加入跳轉到其他頁面的邏輯，例如使用 Vue Router
-    } catch (error) {
-        console.error('Login failed:', error)
-        alert('Login failed. Please check your credentials and try again.')
+        router.push('/dashboard')
     }
+    else{
+        alert(response.detail)
+    }
+
 }
 </script>
 
