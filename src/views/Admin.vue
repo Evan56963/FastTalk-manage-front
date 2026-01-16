@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { userDisplay, type UsersPublic } from '@/api/user'
+import { userDisplay } from '@/http/user'
+import type { UsersPublic } from '@/types/user'
 
 const users = ref<UsersPublic | null>(null)
 

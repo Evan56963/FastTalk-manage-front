@@ -1,11 +1,4 @@
-type LoginSuccess = {
-  access_token: string;
-  token_type: string;
-}
-
-type LoginError = {
-  detail: string;
-}
+import type { LoginSuccess, LoginError } from '@/types/auth';
 
 export async function login(username: string, password: string): Promise<LoginSuccess | LoginError> {
     const formdata = new URLSearchParams();
