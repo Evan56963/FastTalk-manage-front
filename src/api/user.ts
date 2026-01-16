@@ -1,11 +1,11 @@
-export type UserPublic = {
+export interface UserPublic {
     email: string
     is_active: boolean
     is_superuser: boolean
     full_name: string | null
 }
 
-export type UsersPublic = {
+export interface UsersPublic {
     data: UserPublic[]
     count: number
 }

@@ -20,8 +20,8 @@ onMounted(async () => {
         <table>
           <thead>
             <tr>
-              <th>Email</th>
               <th>Full Name</th>
+              <th>Email</th>
               <th>Status</th>
               <th>Role</th>
             </tr>
@@ -29,15 +29,21 @@ onMounted(async () => {
           <tbody>
             <tr v-for="user in users.data" :key="user.email">
               <td>
+                <span class="user-full-name">{{ user.full_name || 'N/A' }}</span>
+              </td>
+              <td>
                 <span class="user-email">{{ user.email }}</span>
               </td>
-              <td>{{ user.full_name || 'N/A' }}</td>
               <td>
                 <span :class="['status-badge', user.is_active ? 'active' : 'inactive']">
                   {{ user.is_active ? 'Active' : 'Inactive' }}
                 </span>
               </td>
-              <td>{{ user.is_superuser ? 'Admin' : 'User' }}</td>
+              <td>
+                <span :class="['role-badge', user.is_superuser? 'admin' : 'user']">
+                {{ user.is_superuser ? 'Admin' : 'User' }}
+                </span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -126,11 +132,33 @@ tr:hover {
   background-color: #f9fafb;
 }
 
-.user-email {
+.user-full-name {
   font-weight: 500;
-  color: #111827;
+  color: #000000;
 }
 
+.user-email {
+  color: #6b7280;
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.role-badge.admin {
+  background-color: #047b47;
+  color: #ffffff;
+}
+
+.role-badge.user {
+  background-color: #efecec;
+  color: #000000;
+}
 .status-badge {
   display: inline-flex;
   align-items: center;

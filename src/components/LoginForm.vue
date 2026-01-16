@@ -25,7 +25,7 @@ const handleSubmit = async () => {
 <template>
   <div class="login-container">
     <form @submit.prevent="handleSubmit" class="login-form">
-      <h2>login</h2>
+      <h2>Login to your account</h2>
       
       <div class="form-group">
         <label for="username">Email</label>
@@ -68,7 +68,7 @@ const handleSubmit = async () => {
   background: white;
   padding: 2.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* 極淡的陰影 */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 400px;
   display: flex;
@@ -107,20 +107,19 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #888; /* 素色風格，聚焦時變深灰 */
+  border-color: #888;
   background-color: #fff;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
 .submit-btn {
   padding: 0.85rem;
-  background-color: #333; /* 深色按鈕 */
+  background-color: #333;
   color: white;
   border: none;
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 600;
-  cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 1rem;
 }
