@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { createUser } from '@/http/user'
-import type { UserCreate } from '@/types';
+import type { UserCreate, UserPublic } from '@/types';
 
 const newUser = ref<UserCreate>({
     email: '',
@@ -11,21 +11,66 @@ const newUser = ref<UserCreate>({
     is_superuser: false
 })
 
+const createdUser = ref<UserPublic | null>(null)
+
 const handleSubmit = async () => {
     const user= await createUser(newUser.value)
     if ('email' in user){
-        alert(`User ${user.email} created successfully!`)
+        createdUser.value = user
     }
     else{
         alert(user.detail)
     }
 
 }
+
+const resetForm = () => {
+    createdUser.value = null
+    newUser.value = {
+        email: '',
+        password: '',
+        full_name: null,
+        is_active: true,
+        is_superuser: false
+    }
+}
 </script>
 
 <template>
     <div class="create-user-container">
-        <form @submit.prevent="handleSubmit" class="create-user-form">
+        <div v-if="createdUser" class="success-card">
+            <div class="success-icon-wrapper">
+                <span class="success-icon">✓</span>
+            </div>
+            <h3>User Created Successfully!</h3>
+            
+            <div class="user-details">
+                <div class="detail-item">
+                    <span class="label">Email</span>
+                    <span class="value">{{ createdUser.email }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Full Name</span>
+                    <span class="value">{{ createdUser.full_name || 'N/A' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Status</span>
+                    <span :class="['status-badge', createdUser.is_active ? 'active' : 'inactive']">
+                        {{ createdUser.is_active ? 'Active' : 'Inactive' }}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Role</span>
+                    <span :class="['role-badge', createdUser.is_superuser ? 'admin' : 'user']">
+                        {{ createdUser.is_superuser ? 'Superuser' : 'User' }}
+                    </span>
+                </div>
+            </div>
+
+            <button @click="resetForm" class="submit-btn">Create Another</button>
+        </div>
+
+        <form v-else @submit.prevent="handleSubmit" class="create-user-form">
         <h2>Create New User</h2>
         
         <div class="form-group">
@@ -252,4 +297,85 @@ input:not([type="checkbox"]):focus {
 .submit-btn:active {
   transform: translateY(1px);
 }
+
+.success-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+}
+
+.success-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background-color: #d1fae5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.success-icon {
+  color: #10b981;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.success-card h3 {
+  margin: 0 0 1.5rem;
+  color: #111827;
+  font-size: 1.25rem;
+}
+
+.user-details {
+  background-color: #f9fafb;
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #f3f4f6;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-item .label {
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-right: 1rem;
+}
+
+.detail-item .value {
+  color: #111827;
+  font-weight: 600;
+  text-align: right;
+  word-break: break-word; /* Ensure long emails wrap */
+  max-width: 70%;
+}
+
+.status-badge, .role-badge {
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-badge.active { background-color: #def7ec; color: #03543f; }
+.status-badge.inactive { background-color: #fde8e8; color: #9b1c1c; }
+.role-badge.admin { background-color: #e0e7ff; color: #3730a3; } /* Indigo-ish */
+.role-badge.user { background-color: #f3f4f6; color: #374151; }
 </style>
