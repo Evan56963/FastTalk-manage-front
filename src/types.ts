@@ -26,3 +26,11 @@ export interface UserCreate {
     is_superuser: boolean
     full_name: string | null
 }
+
+export interface UserUpdate {
+    email: string | null
+    password: string | null
+    is_active: boolean
+    is_superuser: boolean
+    full_name: string | null
+}

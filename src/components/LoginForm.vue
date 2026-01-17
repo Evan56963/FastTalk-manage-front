@@ -32,10 +32,9 @@ const handleSubmit = async () => {
         <input 
           id="username"
           v-model="username" 
-          type="text" 
+          type="email" 
           placeholder="user@example.com" 
-          required 
-          autocomplete="username"
+          required
         />
       </div>
 
@@ -47,7 +46,6 @@ const handleSubmit = async () => {
           type="password" 
           placeholder="Password" 
           required 
-          autocomplete="current-password"
         />
       </div>
 
