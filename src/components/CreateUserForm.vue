@@ -65,6 +65,10 @@ const resetForm = () => {
                         {{ createdUser.is_superuser ? 'Admin' : 'User' }}
                     </span>
                 </div>
+                <div class="detail-item">
+                    <span class="label">id</span>
+                    <span class="value" :title="createdUser.id">{{ createdUser.id }}</span>
+                </div>
             </div>
 
             <button @click="resetForm" class="submit-btn">Create Another</button>
