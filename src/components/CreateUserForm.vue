@@ -61,24 +61,36 @@ const handleSubmit = async () => {
         </div>
 
         <div class="form-group checkbox-group">
-            <label for="is_active">Active</label>
-            <input 
-            id="is_active"
-            v-model="newUser.is_active" 
-            type="checkbox" 
-            />
+            <div class="label-wrapper">
+                <label for="is_active">Active</label>
+                <span class="helper-text">User account status</span>
+            </div>
+            <label class="switch">
+                <input 
+                    id="is_active"
+                    v-model="newUser.is_active" 
+                    type="checkbox"
+                />
+                <span class="slider round active-color"></span>
+            </label>
         </div>
 
         <div class="form-group checkbox-group">
-            <label for="is_superuser">Superuser</label>
-            <input 
-            id="is_superuser"
-            v-model="newUser.is_superuser" 
-            type="checkbox" 
-            />
+            <div class="label-wrapper">
+                <label for="is_superuser">Superuser</label>
+                <span class="helper-text">Grant admin privileges</span>
+            </div>
+            <label class="switch">
+                <input 
+                    id="is_superuser"
+                    v-model="newUser.is_superuser" 
+                    type="checkbox"
+                />
+                <span class="slider round admin-color"></span>
+            </label>
         </div>
 
-        <button type="submit" class="submit-btn">Create User</button>
+        <button type="submit" class="submit-btn">Create</button>
         </form>
     </div>
 </template>
@@ -121,36 +133,105 @@ h2 {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 0.25rem 0;
 }
 
 label {
   font-size: 0.9rem;
-  color: #666;
+  color: #374151;
   font-weight: 500;
+}
+
+.helper-text {
+  display: block;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+/* Switch Styles */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5e7eb;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+input:checked + .slider {
+  background-color: #333;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #333;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Custom Colors */
+input:checked + .slider.active-color {
+  background-color: #10b981; /* Green */
+}
+
+input:checked + .slider.admin-color {
+  background-color: #6366f1; /* Indigo */
 }
 
 input:not([type="checkbox"]) {
   padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
-  background-color: #fafafa;
+  background-color: #f9fafb;
+  color: #111827;
 }
 
 input:not([type="checkbox"]):focus {
   outline: none;
-  border-color: #888;
+  border-color: #6b7280;
   background-color: #fff;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
-input[type="checkbox"] {
-  accent-color: #333;
-  width: 1.2rem;
-  height: 1.2rem;
-  cursor: pointer;
-}
 
 .submit-btn {
   padding: 0.85rem;
