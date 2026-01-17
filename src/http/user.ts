@@ -1,6 +1,6 @@
-import type { UserCreate, UserPublic, UsersPublic } from '@/types';
+import type { UserCreate, UserPublic, UsersPublic, HTTPException } from '@/types';
 
-export async function userDisplay(skip: number, limit: number): Promise<UsersPublic> {
+export async function readUsers(skip: number, limit: number): Promise<UsersPublic> {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users/?skip=${skip}&limit=${limit}`, {
         method: 'GET',
     });
@@ -8,7 +8,7 @@ export async function userDisplay(skip: number, limit: number): Promise<UsersPub
     return response.json();
 }
 
-export async function createUser(userData: UserCreate): Promise<UserPublic> {
+export async function createUser(userData: UserCreate): Promise<UserPublic | HTTPException> {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users/`, {
         method: 'POST',
         headers: {

@@ -68,18 +68,18 @@ const handleSubmit = async () => {
   background: white;
   padding: 2.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   width: 100%;
   max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  border: 1px solid #eaeaea;
+  border: 1px solid #e5e7eb;
 }
 
 h2 {
   margin: 0 0 0.5rem 0;
-  color: #333;
+  color: #111827;
   font-weight: 600;
   text-align: center;
 }
@@ -92,22 +92,23 @@ h2 {
 
 label {
   font-size: 0.9rem;
-  color: #666;
+  color: #374151;
   font-weight: 500;
 }
 
 input {
   padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
-  background-color: #fafafa;
+  background-color: #f9fafb;
+  color: #111827;
 }
 
 input:focus {
   outline: none;
-  border-color: #888;
+  border-color: #6b7280;
   background-color: #fff;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
