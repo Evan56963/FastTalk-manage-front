@@ -28,6 +28,6 @@ export async function updateUser(userId: number, userData: UserUpdate): Promise<
         },
         body: JSON.stringify(userData),
     });
-
+    const a :UserUpdate = userData
     return response.json();
 }

@@ -6,7 +6,7 @@ import type { UserCreate, UserPublic } from '@/types';
 const newUser = ref<UserCreate>({
     email: '',
     password: '',
-    full_name: null,
+    full_name: undefined,
     is_active: true,
     is_superuser: false
 })
@@ -29,7 +29,7 @@ const resetForm = () => {
     newUser.value = {
         email: '',
         password: '',
-        full_name: null,
+        full_name: undefined,
         is_active: true,
         is_superuser: false
     }

@@ -7,12 +7,15 @@ export type HTTPException = {
   detail: string;
 }
 
-export interface UserPublic {
-    id: string
+interface UserBase {
     email: string
     is_active: boolean
     is_superuser: boolean
-    full_name: string | null
+    full_name?: string | null
+}
+
+export interface UserPublic extends UserBase {
+    id: string
 }
 
 export interface UsersPublic {
@@ -20,18 +23,11 @@ export interface UsersPublic {
     count: number
 }
 
-export interface UserCreate {
-    email: string
+export interface UserCreate extends UserBase {
     password: string
-    is_active: boolean
-    is_superuser: boolean
-    full_name: string | null
 }
 
-export interface UserUpdate {
-    email: string | null
-    password: string | null
-    is_active: boolean
-    is_superuser: boolean
-    full_name: string | null
+export interface UserUpdate extends Partial<UserBase>{
+    email?: string
+    password?: string
 }
