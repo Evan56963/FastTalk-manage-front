@@ -52,7 +52,9 @@ watch(skip, async () => {
           <tbody>
             <tr v-for="user in users.data" :key="user.email">
               <td>
-                <span class="user-full-name">{{ user.full_name || 'N/A' }}</span>
+                <span :class="['user-full-name', { 'text-placeholder': !user.full_name }]">
+                  {{ user.full_name || 'N/A' }}
+                </span>
               </td>
               <td>
                 <span class="user-email">{{ user.email }}</span>
@@ -178,6 +180,11 @@ tr:hover {
 .user-full-name {
   font-weight: 500;
   color: #000000;
+}
+
+.user-full-name.text-placeholder {
+  color: #9ca3af;
+  font-weight: 400;
 }
 
 .user-email {
