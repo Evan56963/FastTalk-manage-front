@@ -47,11 +47,11 @@ const resetForm = () => {
             <div class="user-details">
                 <div class="detail-item">
                     <span class="label">Email</span>
-                    <span class="value">{{ createdUser.email }}</span>
+                    <span class="value" :title="createdUser.email">{{ createdUser.email }}</span>
                 </div>
                 <div class="detail-item">
                     <span class="label">Full Name</span>
-                    <span class="value">{{ createdUser.full_name || 'N/A' }}</span>
+                    <span class="value" :title="createdUser.full_name || ''">{{ createdUser.full_name || 'N/A' }}</span>
                 </div>
                 <div class="detail-item">
                     <span class="label">Status</span>
@@ -62,7 +62,7 @@ const resetForm = () => {
                 <div class="detail-item">
                     <span class="label">Role</span>
                     <span :class="['role-badge', createdUser.is_superuser ? 'admin' : 'user']">
-                        {{ createdUser.is_superuser ? 'Superuser' : 'User' }}
+                        {{ createdUser.is_superuser ? 'Admin' : 'User' }}
                     </span>
                 </div>
             </div>
@@ -122,7 +122,7 @@ const resetForm = () => {
 
         <div class="form-group checkbox-group">
             <div class="label-wrapper">
-                <label for="is_superuser">Superuser</label>
+                <label for="is_superuser">Admin</label>
                 <span class="helper-text">Grant admin privileges</span>
             </div>
             <label class="switch">
@@ -152,13 +152,13 @@ const resetForm = () => {
   background: white;
   padding: 2.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  border: 1px solid #eaeaea;
+  border: 1px solid #e5e7eb;
 }
 
 h2 {
@@ -343,9 +343,10 @@ input:not([type="checkbox"]):focus {
 .detail-item {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 0.75rem;
   font-size: 0.95rem;
+  min-width: 0; /* Important for flex child truncation */
 }
 
 .detail-item:last-child {
@@ -357,13 +358,16 @@ input:not([type="checkbox"]):focus {
   font-weight: 500;
   white-space: nowrap;
   margin-right: 1rem;
+  flex-shrink: 0;
 }
 
 .detail-item .value {
   color: #111827;
   font-weight: 600;
   text-align: right;
-  word-break: break-word; /* Ensure long emails wrap */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   max-width: 70%;
 }
 
@@ -376,6 +380,6 @@ input:not([type="checkbox"]):focus {
 
 .status-badge.active { background-color: #def7ec; color: #03543f; }
 .status-badge.inactive { background-color: #fde8e8; color: #9b1c1c; }
-.role-badge.admin { background-color: #e0e7ff; color: #3730a3; } /* Indigo-ish */
-.role-badge.user { background-color: #f3f4f6; color: #374151; }
+.role-badge.admin { background-color: #047b47; color: #ffffff; } /* Indigo-ish */
+.role-badge.user { background-color: #efecec; color: #000000; }
 </style>

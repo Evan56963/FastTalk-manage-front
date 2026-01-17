@@ -45,8 +45,8 @@ watch(skip, async () => {
             <tr>
               <th>Full Name</th>
               <th>Email</th>
-              <th>Status</th>
               <th>Role</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -58,13 +58,13 @@ watch(skip, async () => {
                 <span class="user-email">{{ user.email }}</span>
               </td>
               <td>
-                <span :class="['status-badge', user.is_active ? 'active' : 'inactive']">
-                  {{ user.is_active ? 'Active' : 'Inactive' }}
+                <span :class="['role-badge', user.is_superuser? 'admin' : 'user']">
+                {{ user.is_superuser ? 'Admin' : 'User' }}
                 </span>
               </td>
               <td>
-                <span :class="['role-badge', user.is_superuser? 'admin' : 'user']">
-                {{ user.is_superuser ? 'Admin' : 'User' }}
+                <span :class="['status-badge', user.is_active ? 'active' : 'inactive']">
+                  {{ user.is_active ? 'Active' : 'Inactive' }}
                 </span>
               </td>
             </tr>
