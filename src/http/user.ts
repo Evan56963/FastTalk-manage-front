@@ -1,4 +1,4 @@
-import type { UserCreate, UserPublic, UsersPublic } from '@/types/user';
+import type { UserCreate, UserPublic, UsersPublic } from '@/types';
 
 export async function userDisplay(skip: number, limit: number): Promise<UsersPublic> {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users/?skip=${skip}&limit=${limit}`, {

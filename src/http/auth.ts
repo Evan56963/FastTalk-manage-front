@@ -1,6 +1,6 @@
-import type { LoginSuccess, LoginError } from '@/types/auth';
+import type { LoginSuccess, HTTPException } from '@/types';
 
-export async function login(username: string, password: string): Promise<LoginSuccess | LoginError> {
+export async function login(username: string, password: string): Promise<LoginSuccess | HTTPException> {
     const formdata = new URLSearchParams();
     formdata.append('username', username);
     formdata.append('password', password);

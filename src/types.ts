@@ -1,3 +1,12 @@
+export type LoginSuccess = {
+  access_token: string;
+  token_type: string;
+}
+
+export type HTTPException = {
+  detail: string;
+}
+
 export interface UserPublic {
     email: string
     is_active: boolean
