@@ -15,6 +15,16 @@ const showModal = ref(false)
              <span class="plus-icon">+</span> Add User
           </button>
         </template>
+        
+        <template #options="{ user }">
+          <div class="action-menu-container">
+            <button class="action-btn">⋮</button>
+            <div class="dropdown-menu">
+              <button class="dropdown-item">Edit</button>
+              <button class="dropdown-item delete">Delete</button>
+            </div>
+          </div>
+        </template>
       </UserList>
     </div>
 
@@ -32,7 +42,6 @@ const showModal = ref(false)
   padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 .table {
@@ -40,7 +49,6 @@ const showModal = ref(false)
   border-radius: 8px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: 1px solid #e5e7eb;
-  overflow: hidden;
 }
 
 .add-btn {
@@ -112,5 +120,69 @@ const showModal = ref(false)
 .close-btn:hover {
   color: #333;
   background-color: rgba(0,0,0,0.05);
+}
+
+.action-menu-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.action-btn:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 120px;
+  padding: 4px 0;
+}
+
+.action-menu-container:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  color: #374151;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f9fafb;
+}
+
+.dropdown-item.delete {
+  color: #ef4444;
+}
+
+.dropdown-item.delete:hover {
+  background-color: #fef2f2;
 }
 </style>

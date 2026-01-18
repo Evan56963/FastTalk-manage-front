@@ -45,6 +45,7 @@ watch(skip, async () => {
               <th>Email</th>
               <th>Role</th>
               <th>Status</th>
+              <th style="width: 48px"></th>
             </tr>
           </thead>
           <tbody>
@@ -66,6 +67,9 @@ watch(skip, async () => {
                 <span :class="['status-badge', user.is_active ? 'active' : 'inactive']">
                   {{ user.is_active ? 'Active' : 'Inactive' }}
                 </span>
+              </td>
+              <td>
+                 <slot name="options" :user="user"></slot>
               </td>
             </tr>
           </tbody>
@@ -118,7 +122,7 @@ h2 {
 }
 
 .table-wrapper {
-  overflow-x: auto;
+  overflow: visible;
 }
 
 table {
