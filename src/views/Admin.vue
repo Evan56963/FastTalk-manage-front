@@ -7,10 +7,10 @@ import EditUser from '@/components/EditUser.vue'
 
 const showCreateModal = ref(false)
 const showEditModal = ref(false)
-const editingUser = ref<UserPublic | null>(null)
+const editUser = ref<UserPublic | null>(null)
 
 const openEdit = (user: UserPublic) => {
-  editingUser.value = user
+  editUser.value = user
   showEditModal.value = true
 }
 
@@ -45,15 +45,15 @@ const openEdit = (user: UserPublic) => {
       </div>
     </div>
     
-    <div v-if="showEditModal && editingUser" class="modal-overlay" @click.self="showEditModal = false">
+    <div v-if="showEditModal && editUser" class="modal-overlay" @click.self="showEditModal = false">
       <div class="modal-wrapper">
         <button class="close-btn" @click="showEditModal = false">&times;</button>
         <EditUser 
-            :id="editingUser.id"
-            :email="editingUser.email"
-            :full_name="editingUser.full_name"
-            :is_active="editingUser.is_active"
-            :is_superuser="editingUser.is_superuser"
+            :id="editUser.id"
+            :email="editUser.email"
+            :full_name="editUser.full_name"
+            :is_active="editUser.is_active"
+            :is_superuser="editUser.is_superuser"
         />
       </div>
     </div>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref } from 'vue'
+import { reactive } from 'vue';
 import { updateUser } from '@/http/user'
-import type { UserUpdate } from '@/types';
+import type { UserUpdate, UserPublic } from '@/types';
 
-// 接收使用者原始資料
-const user = defineProps<{
+const editUser = defineProps<{
     id: string
     email: string
     is_active: boolean
@@ -12,56 +12,41 @@ const user = defineProps<{
     full_name?: string | null
 }>()
 
-// 本地表單資料，用於編輯
-const formData = reactive({
-    email: user.email,
-    full_name: user.full_name || '',
-    is_active: user.is_active,
-    is_superuser: user.is_superuser
+const editingUser = ref<UserUpdate>({
+    email: editUser.email,
+    full_name: editUser.full_name,
+    is_active: editUser.is_active,
+    is_superuser: editUser.is_superuser
 })
 
-// 追蹤每個欄位是否處於編輯模式
-const editing = reactive({
+const isEdit = reactive({
     email: false,
     full_name: false,
-    is_active: false,
-    is_superuser: false
+    status: false,
+    role: false
 })
 
-// 切換編輯狀態：如果是取消編輯 (false)，則將資料還原為原始 props
-const toggleEdit = (field: keyof typeof editing) => {
-    if (editing[field]) {
-        // 取消編輯，還原資料
-        if (field === 'email') formData.email = user.email
-        if (field === 'full_name') formData.full_name = user.full_name || ''
-        if (field === 'is_active') formData.is_active = user.is_active
-        if (field === 'is_superuser') formData.is_superuser = user.is_superuser
-    }
-    editing[field] = !editing[field]
+const editedUser = ref<UserPublic | null>(null)
+
+const toggleEdit = (field: keyof typeof isEdit) => {
+    isEdit[field] = !isEdit[field]
 }
 
 const save = async () => {
-    const payload: Record<string, any> = {}
-    
-    // 只加入有變更的欄位
-    if (formData.email !== user.email) payload.email = formData.email
-    if (formData.full_name !== (user.full_name || '')) payload.full_name = formData.full_name
-    if (formData.is_active !== user.is_active) payload.is_active = formData.is_active
-    if (formData.is_superuser !== user.is_superuser) payload.is_superuser = formData.is_superuser
-    
-    // 如果有資料變更則送出請求
-    if (Object.keys(payload).length > 0) {
-        try {
-            await updateUser(user.id, payload)
-            // 更新成功後，關閉所有編輯狀態 (變回展示模式)
-            Object.keys(editing).forEach(k => editing[k as keyof typeof editing] = false)
-        } catch (e) {
-            console.error('Update failed', e)
-            alert('Failed to update user')
-        }
-    } else {
-        // 如果沒變更，直接關閉所有編輯狀態
-        Object.keys(editing).forEach(k => editing[k as keyof typeof editing] = false)
+    const user = await updateUser(editUser.id, Object.fromEntries(
+      Object.entries(editingUser.value).filter(
+        ([key, value]) => value !== editUser[key as keyof typeof editUser]
+      )
+    ))
+    if ('email' in user){
+        editedUser.value = user
+        isEdit.email = false
+        isEdit.full_name = false
+        isEdit.status = false
+        isEdit.role = false
+    }
+    else{
+        alert(user.detail)
     }
 }
 </script>
@@ -73,52 +58,52 @@ const save = async () => {
         <div class="field-item">
             <span class="label">Full Name:</span>
             <div class="field-content">
-                <input v-if="editing.full_name" v-model="formData.full_name" type="text" class="input" />
-                <span v-else>{{ formData.full_name || 'N/A' }}</span>
+                <input v-if="isEdit.full_name" v-model="editingUser.full_name" type="text" class="input" />
+                <span v-else>{{ editingUser.full_name || 'N/A' }}</span>
             </div>
             <button class="icon-btn" @click="toggleEdit('full_name')">
-                {{ editing.full_name ? '✕' : '✎' }}
+                {{ isEdit.full_name ? '✕' : '✎' }}
             </button>
         </div>
 
         <div class="field-item">
             <span class="label">Email:</span>
             <div class="field-content">
-                <input v-if="editing.email" v-model="formData.email" type="email" class="input" />
-                <span v-else>{{ formData.email }}</span>
+                <input v-if="isEdit.email" v-model="editingUser.email" type="email" class="input" />
+                <span v-else>{{ editingUser.email }}</span>
             </div>
             <button class="icon-btn" @click="toggleEdit('email')">
-                {{ editing.email ? '✕' : '✎' }}
+                {{ isEdit.email ? '✕' : '✎' }}
             </button>
         </div>
 
         <div class="field-item">
             <span class="label">Status:</span>
             <div class="field-content">
-                <div v-if="editing.is_active" class="checkbox-wrap">
-                    <input v-model="formData.is_active" type="checkbox" id="active-chk" />
+                <div v-if="isEdit.status" class="checkbox-wrap">
+                    <input v-model="editingUser.is_active" type="checkbox" id="active-chk" />
                     <label for="active-chk">Active</label>
                 </div>
-                <span v-else :class="formData.is_active ? 'green-text' : 'red-text'">
-                    {{ formData.is_active ? 'Active' : 'Inactive' }}
+                <span v-else :class="editingUser.is_active ? 'green-text' : 'red-text'">
+                    {{ editingUser.is_active ? 'Active' : 'Inactive' }}
                 </span>
             </div>
-            <button class="icon-btn" @click="toggleEdit('is_active')">
-                {{ editing.is_active ? '✕' : '✎' }}
+            <button class="icon-btn" @click="toggleEdit('status')">
+                {{ isEdit.status ? '✕' : '✎' }}
             </button>
         </div>
 
         <div class="field-item">
             <span class="label">Role:</span>
             <div class="field-content">
-                 <div v-if="editing.is_superuser" class="checkbox-wrap">
-                    <input v-model="formData.is_superuser" type="checkbox" id="admin-chk" />
+                 <div v-if="isEdit.role" class="checkbox-wrap">
+                    <input v-model="editingUser.is_superuser" type="checkbox" id="admin-chk" />
                     <label for="admin-chk">Admin</label>
                 </div>
-                <span v-else>{{ formData.is_superuser ? 'Admin' : 'User' }}</span>
+                <span v-else>{{ editingUser.is_superuser ? 'Admin' : 'User' }}</span>
             </div>
-            <button class="icon-btn" @click="toggleEdit('is_superuser')">
-                {{ editing.is_superuser ? '✕' : '✎' }}
+            <button class="icon-btn" @click="toggleEdit('role')">
+                {{ isEdit.role ? '✕' : '✎' }}
             </button>
         </div>
 
