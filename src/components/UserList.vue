@@ -133,7 +133,7 @@ table {
 
 th {
   background-color: #f9fafb;
-  padding: 10px 24px;
+  padding: 8px 24px;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -143,7 +143,7 @@ th {
 }
 
 td {
-  padding: 12px 24px;
+  padding: 10px 24px;
   font-size: 0.875rem;
   color: #374151;
   border-bottom: 1px solid #e5e7eb;
