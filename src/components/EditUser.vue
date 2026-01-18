@@ -21,9 +21,7 @@ const editingUser = ref<UserUpdate>({
 
 const isEdit = reactive({
     email: false,
-    full_name: false,
-    status: false,
-    role: false
+    full_name: false
 })
 
 const editedUser = ref<UserPublic | null>(null)
@@ -42,8 +40,6 @@ const save = async () => {
         editedUser.value = user
         isEdit.email = false
         isEdit.full_name = false
-        isEdit.status = false
-        isEdit.role = false
     }
     else{
         alert(user.detail)
@@ -56,7 +52,7 @@ const save = async () => {
         <h2>Edit User</h2>
         
         <div class="field-item">
-            <span class="label">Full Name:</span>
+            <span class="label">Name:</span>
             <div class="field-content">
                 <input v-if="isEdit.full_name" v-model="editingUser.full_name" type="text" class="input" />
                 <span v-else>{{ editingUser.full_name || 'N/A' }}</span>
@@ -80,31 +76,23 @@ const save = async () => {
         <div class="field-item">
             <span class="label">Status:</span>
             <div class="field-content">
-                <div v-if="isEdit.status" class="checkbox-wrap">
-                    <input v-model="editingUser.is_active" type="checkbox" id="active-chk" />
-                    <label for="active-chk">Active</label>
-                </div>
-                <span v-else :class="editingUser.is_active ? 'green-text' : 'red-text'">
-                    {{ editingUser.is_active ? 'Active' : 'Inactive' }}
-                </span>
+                <label class="switch">
+                    <input v-model="editingUser.is_active" type="checkbox">
+                    <span class="slider round active-color"></span>
+                </label>
+                <span class="switch-label">{{ editingUser.is_active ? 'Active' : 'Inactive' }}</span>
             </div>
-            <button class="icon-btn" @click="toggleEdit('status')">
-                {{ isEdit.status ? '✕' : '✎' }}
-            </button>
         </div>
 
         <div class="field-item">
             <span class="label">Role:</span>
             <div class="field-content">
-                 <div v-if="isEdit.role" class="checkbox-wrap">
-                    <input v-model="editingUser.is_superuser" type="checkbox" id="admin-chk" />
-                    <label for="admin-chk">Admin</label>
-                </div>
-                <span v-else>{{ editingUser.is_superuser ? 'Admin' : 'User' }}</span>
+                <label class="switch">
+                    <input v-model="editingUser.is_superuser" type="checkbox">
+                    <span class="slider round admin-color"></span>
+                </label>
+                <span class="switch-label">{{ editingUser.is_superuser ? 'Admin' : 'User' }}</span>
             </div>
-            <button class="icon-btn" @click="toggleEdit('role')">
-                {{ isEdit.role ? '✕' : '✎' }}
-            </button>
         </div>
 
         <button class="save-btn" @click="save">Save Changes</button>
@@ -188,12 +176,76 @@ h2 {
     background-color: #000;
 }
 
-.checkbox-wrap {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+.switch-label {
+    margin-left: 10px;
+    font-size: 0.9rem;
+    color: #374151;
+    min-width: 60px;
 }
 
-.green-text { color: #059669; font-weight: 500; }
-.red-text { color: #dc2626; font-weight: 500; }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5e7eb;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+input:checked + .slider {
+  background-color: #333;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #333;
+}
+
+input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+.slider.round {
+  border-radius: 22px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Custom Colors */
+input:checked + .slider.active-color {
+  background-color: #10b981; 
+}
+
+input:checked + .slider.admin-color {
+  background-color: #6366f1; 
+}
 </style>

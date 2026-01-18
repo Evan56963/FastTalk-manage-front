@@ -111,7 +111,7 @@ const resetForm = () => {
 
         <div class="form-group checkbox-group">
             <div class="label-wrapper">
-                <label for="is_active">Active</label>
+                <label for="is_active">{{ newUser.is_active ? 'Active' : 'Inactive' }}</label>
                 <span class="helper-text">User account status</span>
             </div>
             <label class="switch">
@@ -126,7 +126,7 @@ const resetForm = () => {
 
         <div class="form-group checkbox-group">
             <div class="label-wrapper">
-                <label for="is_superuser">Admin</label>
+                <label for="is_superuser">{{ newUser.is_superuser ? 'Admin' : 'User' }}</label>
                 <span class="helper-text">Grant admin privileges</span>
             </div>
             <label class="switch">
