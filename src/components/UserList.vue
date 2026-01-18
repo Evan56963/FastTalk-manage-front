@@ -30,7 +30,10 @@ watch(skip, async () => {
 <template>
   <div>
     <div class="header">
-      <h2>Users<span class="count-badge" v-if="users">{{ users.count }}</span></h2>
+      <div>
+        <h2>Users<span class="count-badge" v-if="users">{{ users.count }}</span></h2>
+        <p class="description">Manage user access and permissions.</p>
+      </div>
       <div class="actions">
         <slot name="actions"></slot>
       </div>
@@ -94,7 +97,7 @@ watch(skip, async () => {
 
 <style scoped>
 .header {
-  padding: 16px 24px;
+  padding: 14px 24px;
   border-bottom: 1px solid #e5e7eb;
   background-color: #fff;
   display: flex;
@@ -110,6 +113,12 @@ h2 {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.description {
+  margin: 4px 0 0 0;
+  font-size: 0.875rem;
+  color: #6b7280;
 }
 
 .count-badge {

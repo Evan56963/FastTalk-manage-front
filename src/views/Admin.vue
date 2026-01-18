@@ -39,7 +39,7 @@ const showModal = ref(false)
 
 <style scoped>
 .container {
-  padding: 20px;
+  padding: 16px;
   max-width: 1200px;
   margin: 0 auto;
 }
