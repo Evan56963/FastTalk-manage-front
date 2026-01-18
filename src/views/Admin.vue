@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { UserPublic } from '@/types'
 import CreateUserForm from '@/components/CreateUserForm.vue'
 import UserList from '@/components/UserList.vue'
+import EditUser from '@/components/EditUser.vue'
 
-const showModal = ref(false)
+const showCreateModal = ref(false)
+const showEditModal = ref(false)
+const editingUser = ref<UserPublic | null>(null)
+
+const openEdit = (user: UserPublic) => {
+  editingUser.value = user
+  showEditModal.value = true
+}
+
 </script>
 
 <template>
@@ -11,7 +21,7 @@ const showModal = ref(false)
     <div class="table">
       <UserList>
         <template #actions>
-          <button class="add-btn" @click="showModal = true">
+          <button class="add-btn" @click="showCreateModal = true">
              <span class="plus-icon">+</span> Add User
           </button>
         </template>
@@ -20,7 +30,7 @@ const showModal = ref(false)
           <div class="action-menu-container">
             <button class="action-btn">⋮</button>
             <div class="dropdown-menu">
-              <button class="dropdown-item">Edit</button>
+              <button class="dropdown-item" @click="openEdit(user)">Edit</button>
               <button class="dropdown-item delete">Delete</button>
             </div>
           </div>
@@ -28,12 +38,26 @@ const showModal = ref(false)
       </UserList>
     </div>
 
-    <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
+    <div v-if="showCreateModal" class="modal-overlay" @click.self="showCreateModal = false">
       <div class="modal-wrapper">
-        <button class="close-btn" @click="showModal = false">&times;</button>
+        <button class="close-btn" @click="showCreateModal = false">&times;</button>
         <CreateUserForm />
       </div>
     </div>
+    
+    <div v-if="showEditModal && editingUser" class="modal-overlay" @click.self="showEditModal = false">
+      <div class="modal-wrapper">
+        <button class="close-btn" @click="showEditModal = false">&times;</button>
+        <EditUser 
+            :id="editingUser.id"
+            :email="editingUser.email"
+            :full_name="editingUser.full_name"
+            :is_active="editingUser.is_active"
+            :is_superuser="editingUser.is_superuser"
+        />
+      </div>
+    </div>
+
   </div>
 </template>
 

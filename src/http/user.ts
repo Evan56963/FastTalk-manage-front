@@ -20,7 +20,7 @@ export async function createUser(userData: UserCreate): Promise<UserPublic | HTT
     return response.json();
 }
 
-export async function updateUser(userId: number, userData: UserUpdate): Promise<UserPublic | HTTPException> {
+export async function updateUser(userId: string, userData: UserUpdate): Promise<UserPublic | HTTPException> {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users/${userId}`, {
         method: 'PATCH',
         headers: {
