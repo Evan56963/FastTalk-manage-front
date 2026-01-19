@@ -1,7 +1,8 @@
+import { VITE_BASE_URL } from '@/http/base';
 import type { UserCreate, UserPublic, UsersPublic, UserUpdate, HTTPException } from '@/types';
 
 export async function readUsers(skip: number, limit: number): Promise<UsersPublic> {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users/?skip=${skip}&limit=${limit}`, {
+    const response = await fetch(`${VITE_BASE_URL}/users/?skip=${skip}&limit=${limit}`, {
         method: 'GET',
     });
 
@@ -9,7 +10,7 @@ export async function readUsers(skip: number, limit: number): Promise<UsersPubli
 }
 
 export async function createUser(userData: UserCreate): Promise<UserPublic | HTTPException> {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users/`, {
+    const response = await fetch(`${VITE_BASE_URL}/users/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -21,7 +22,7 @@ export async function createUser(userData: UserCreate): Promise<UserPublic | HTT
 }
 
 export async function updateUser(userId: string, userData: UserUpdate): Promise<UserPublic | HTTPException> {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users/${userId}`, {
+    const response = await fetch(`${VITE_BASE_URL}/users/${userId}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

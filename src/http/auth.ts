@@ -1,3 +1,4 @@
+import { VITE_BASE_URL } from '@/http/base';
 import type { LoginSuccess, HTTPException } from '@/types';
 
 export async function login(username: string, password: string): Promise<LoginSuccess | HTTPException> {
@@ -5,7 +6,7 @@ export async function login(username: string, password: string): Promise<LoginSu
     formdata.append('username', username);
     formdata.append('password', password);
 
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login/access-token`, {
+    const response = await fetch(`${VITE_BASE_URL}/auth/login/access-token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

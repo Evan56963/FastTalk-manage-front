@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { reactive } from 'vue';
 import { updateUser } from '@/http/user'
 import type { UserUpdate, UserPublic } from '@/types';
-import Success from './Success.vue';
+import Dialog from './Dialog.vue';
 
 const editUser = defineProps<{
     id: string
@@ -32,6 +32,15 @@ const toggleEdit = (field: keyof typeof isEdit) => {
 }
 
 const save = async () => {
+
+    if (editingUser.value.email==editUser.email &&
+        editingUser.value.full_name==editUser.full_name &&
+        editingUser.value.is_active==editUser.is_active &&
+        editingUser.value.is_superuser==editUser.is_superuser){
+            alert("No changes made.")
+            return
+    }
+
     const user = await updateUser(editUser.id, Object.fromEntries(
       Object.entries(editingUser.value).filter(
         ([key, value]) => value !== editUser[key as keyof typeof editUser]
@@ -49,7 +58,7 @@ const save = async () => {
 </script>
 
 <template>
-    <Success 
+    <Dialog 
         v-if="editedUser" 
         title="User Updated Successfully!"
         action-text="Back to Edit"
@@ -171,7 +180,7 @@ h2 {
 .save-btn {
     margin-top: 24px;
     width: 100%;
-    background-color: #111827;
+    background-color: #333;
     color: white;
     padding: 10px;
     border-radius: 6px;

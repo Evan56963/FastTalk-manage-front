@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { createUser } from '@/http/user'
 import type { UserCreate, UserPublic } from '@/types';
-import Success from './Success.vue';
+import Dialog from './Dialog.vue';
 
 const newUser = ref<UserCreate>({
     email: '',
@@ -39,7 +39,7 @@ const resetForm = () => {
 
 <template>
     <div class="create-user-container">
-        <Success 
+        <Dialog 
             v-if="createdUser" 
             title="User Created Successfully!"
             action-text="Create Another"
