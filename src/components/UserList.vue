@@ -34,7 +34,7 @@ watch(skip, async () => {
         <h2>Users<span class="count-badge" v-if="users">{{ users.count }}</span></h2>
         <p class="description">Manage user access and permissions.</p>
       </div>
-      <div class="actions">
+      <div class="add-btn">
         <slot name="actions"></slot>
       </div>
     </div>

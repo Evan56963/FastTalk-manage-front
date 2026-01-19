@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { reactive } from 'vue';
 import { updateUser } from '@/http/user'
 import type { UserUpdate, UserPublic } from '@/types';
+import Success from './Success.vue';
 
 const editUser = defineProps<{
     id: string
@@ -48,7 +49,14 @@ const save = async () => {
 </script>
 
 <template>
-    <div class="edit-container">
+    <Success 
+        v-if="editedUser" 
+        title="User Updated Successfully!"
+        action-text="Back to Edit"
+        :user="editedUser"
+        @action="editedUser = null"
+    />
+    <div v-else class="edit-container">
         <h2>Edit User</h2>
         
         <div class="field-item">
