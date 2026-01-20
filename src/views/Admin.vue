@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { UserPublic } from '@/types'
+import { deleteUser } from '@/http/user'
 import Sidebar from '@/components/SideBar.vue'
 import CreateUserForm from '@/components/CreateUserForm.vue'
 import UserList from '@/components/UserList.vue'
@@ -14,7 +15,17 @@ const openEdit = (user: UserPublic) => {
   editUser.value = user
   showEditModal.value = true
 }
-
+const deleteById = async (id: string) => {
+  const confirmed = confirm("Are you sure you want to delete this user?")
+  if (confirmed){
+      const response = await deleteUser(id)
+      if ('message' in response){
+          alert(response.message)
+      }else{
+          alert(response.detail)
+      }
+  }
+}
 </script>
 
 <template>
@@ -41,7 +52,7 @@ const openEdit = (user: UserPublic) => {
                 <button class="action-btn">⋮</button>
                 <div class="dropdown-menu">
                   <button class="dropdown-item" @click="openEdit(user)">Edit</button>
-                  <button class="dropdown-item delete">Delete</button>
+                  <button class="dropdown-item delete" @click="deleteById(user.id)">Delete</button>
                 </div>
               </div>
             </template>
@@ -82,7 +93,7 @@ const openEdit = (user: UserPublic) => {
   flex: 1;
   background-color: #f4f5f8; /* Optional: adds a light background for content area */
   height: 100vh;
-  overflow-y: auto; /* Allows scrolling in content area */
+  overflow-y: hidden; /* Allows scrolling in content area */
 }
 
 .container {

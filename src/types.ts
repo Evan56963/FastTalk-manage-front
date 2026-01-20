@@ -31,3 +31,7 @@ export interface UserUpdate extends Partial<UserBase>{
     email?: string
     password?: string
 }
+
+export interface Message {
+    message: string;
+}
