@@ -14,6 +14,7 @@ const handleSubmit = async () => {
     if ('access_token' in response){
         auth.setToken(response.access_token)
         router.push('/dashboard')
+        
     }
     else{
         alert(response.detail)

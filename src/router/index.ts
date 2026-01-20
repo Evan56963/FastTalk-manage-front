@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Admin from '../views/Admin.vue'
-import DashBoard from '../views/DashBoard.vue'
-import Login from '../views/Login.vue'
+import { useAuthStore } from '../stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,22 +11,33 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin',
-      component: Admin,
+      meta: { requiresAuth: true },
+      component: () => import('../views/Admin.vue'),
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
-      component: DashBoard,
-      
+      name: 'dashboard', 
+      meta: { requiresAuth: true },
+      component: () => import('../views/DashBoard.vue'),
+     
     },
     {
       path: '/login',
       name: 'login',
-      component: Login,
+      component: () => import('../views/Login.vue'),
     }
   ],
 })
 
+router.beforeEach((to) => {
+    const auth = useAuthStore()
+    if (to.meta.requiresAuth && !auth.isLogin) {
+      return { path: '/login'}
+    }
+    else{
+      return true
+    }
+  })
 export default router
 
 // route level code-splitting
