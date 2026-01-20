@@ -46,7 +46,7 @@ const deleteById = async (id: string) => {
         </div>
 
         <div class="table">
-          <UserList ref="userListRef">
+          <UserList>
             <template #options="{ user }">
               <div class="action-menu-container">
                 <button class="action-btn">⋮</button>
