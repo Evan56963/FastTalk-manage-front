@@ -29,16 +29,6 @@ watch(skip, async () => {
 
 <template>
   <div>
-    <div class="header">
-      <div>
-        <h2>Users<span class="count-badge" v-if="users">{{ users.count }}</span></h2>
-        <p class="description">Manage user access and permissions.</p>
-      </div>
-      <div class="add-btn">
-        <slot name="actions"></slot>
-      </div>
-    </div>
-
     <div v-if="users">
       <div class="table-wrapper">
         <table>
@@ -52,7 +42,7 @@ watch(skip, async () => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in users.data" :key="user.email">
+            <tr v-for="user in users.data" :key="user.id">
               <td>
                 <span :class="['user-full-name', { 'text-placeholder': !user.full_name }]">
                   {{ user.full_name || 'N/A' }}
@@ -96,16 +86,16 @@ watch(skip, async () => {
 </template>
 
 <style scoped>
-.header {
+/* .header {
   padding: 14px 24px;
   border-bottom: 1px solid #e5e7eb;
   background-color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
+} */
 
-h2 {
+/* h2 {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -113,22 +103,22 @@ h2 {
   display: flex;
   align-items: center;
   gap: 12px;
-}
+} */
 
-.description {
+/* .description {
   margin: 4px 0 0 0;
   font-size: 0.875rem;
   color: #6b7280;
-}
+} */
 
-.count-badge {
+/* .count-badge {
   background-color: #f3f4f6;
   color: #374151;
   font-size: 0.75rem;
   padding: 2px 8px;
   border-radius: 9999px;
   font-weight: 500;
-}
+} */
 
 .table-wrapper {
   overflow: visible;
@@ -141,8 +131,8 @@ table {
 }
 
 th {
-  background-color: #f9fafb;
-  padding: 8px 24px;
+  background-color: #eff1f3;
+  padding: 12px 24px;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -227,7 +217,7 @@ tr:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
+  padding: 8px 24px;
   background-color: #fff;
   border-top: 1px solid #e5e7eb;
 }

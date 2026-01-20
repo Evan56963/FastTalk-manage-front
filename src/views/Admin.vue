@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { UserPublic } from '@/types'
+import Sidebar from '@/components/SideBar.vue'
 import CreateUserForm from '@/components/CreateUserForm.vue'
 import UserList from '@/components/UserList.vue'
 import EditUser from '@/components/EditUser.vue'
@@ -17,51 +18,73 @@ const openEdit = (user: UserPublic) => {
 </script>
 
 <template>
-  <div class="container">
-    <div class="table">
-      <UserList>
-        <template #actions>
-          <button class="add-btn" @click="showCreateModal = true">
-             <span class="plus-icon">+</span> Add User
-          </button>
-        </template>
-        
-        <template #options="{ user }">
-          <div class="action-menu-container">
-            <button class="action-btn">⋮</button>
-            <div class="dropdown-menu">
-              <button class="dropdown-item" @click="openEdit(user)">Edit</button>
-              <button class="dropdown-item delete">Delete</button>
+  <div class="layout-container">
+    <Sidebar />
+    <div class="main-content">
+      <div class="container">
+        <div class="header">
+            <div>
+              <h2>Users</h2>
+              <p class="subtitle">Manage user access and permissions.</p>
             </div>
+            <div class="add-btn-wrapper">
+                <button class="add-btn" @click="showCreateModal = true">
+                    <span class="plus-icon">+</span> Add User
+                </button>
+            </div>
+        </div>
+
+        <div class="table">
+          <UserList ref="userListRef">
+            <template #options="{ user }">
+              <div class="action-menu-container">
+                <button class="action-btn">⋮</button>
+                <div class="dropdown-menu">
+                  <button class="dropdown-item" @click="openEdit(user)">Edit</button>
+                  <button class="dropdown-item delete">Delete</button>
+                </div>
+              </div>
+            </template>
+          </UserList>
+        </div>
+
+        <div v-if="showCreateModal" class="modal-overlay" @click.self="showCreateModal = false">
+          <div class="modal-wrapper">
+            <button class="close-btn" @click="showCreateModal = false">&times;</button>
+            <CreateUserForm />
           </div>
-        </template>
-      </UserList>
-    </div>
-
-    <div v-if="showCreateModal" class="modal-overlay" @click.self="showCreateModal = false">
-      <div class="modal-wrapper">
-        <button class="close-btn" @click="showCreateModal = false">&times;</button>
-        <CreateUserForm />
+        </div>
+        
+        <div v-if="showEditModal && editUser" class="modal-overlay" @click.self="showEditModal = false">
+          <div class="modal-wrapper">
+            <button class="close-btn" @click="showEditModal = false">&times;</button>
+            <EditUser 
+                :id="editUser.id"
+                :email="editUser.email"
+                :full_name="editUser.full_name"
+                :is_active="editUser.is_active"
+                :is_superuser="editUser.is_superuser"
+            />
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div v-if="showEditModal && editUser" class="modal-overlay" @click.self="showEditModal = false">
-      <div class="modal-wrapper">
-        <button class="close-btn" @click="showEditModal = false">&times;</button>
-        <EditUser 
-            :id="editUser.id"
-            :email="editUser.email"
-            :full_name="editUser.full_name"
-            :is_active="editUser.is_active"
-            :is_superuser="editUser.is_superuser"
-        />
-      </div>
-    </div>
-
   </div>
 </template>
 
 <style scoped>
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  background-color: #f4f5f8; /* Optional: adds a light background for content area */
+  height: 100vh;
+  overflow-y: auto; /* Allows scrolling in content area */
+}
+
 .container {
   padding: 16px;
   max-width: 1200px;
@@ -75,23 +98,57 @@ const openEdit = (user: UserPublic) => {
   border: 1px solid #e5e7eb;
 }
 
+.header {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.subtitle {
+  margin: 4px 0 0 0;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.count-badge {
+  background-color: #f3f4f6;
+  color: #374151;
+  font-size: 0.85rem;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
 .add-btn {
-  background-color: #333;
+  background-color: #000;
   color: white;
   border: none;
   border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
   gap: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .add-btn:hover {
-  background-color: #000;
+  background-color: #222;
+  transform: translateY(-1px);
 }
 
 .plus-icon {

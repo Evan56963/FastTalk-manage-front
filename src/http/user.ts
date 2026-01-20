@@ -4,6 +4,9 @@ import type { UserCreate, UserPublic, UsersPublic, UserUpdate, HTTPException } f
 export async function readUsers(skip: number, limit: number): Promise<UsersPublic> {
     const response = await fetch(`${VITE_BASE_URL}/users/?skip=${skip}&limit=${limit}`, {
         method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+        },
     });
 
     return response.json();
@@ -14,6 +17,7 @@ export async function createUser(userData: UserCreate): Promise<UserPublic | HTT
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
         },
         body: JSON.stringify(userData),
     });
@@ -26,6 +30,7 @@ export async function updateUser(userId: string, userData: UserUpdate): Promise<
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
         },
         body: JSON.stringify(userData),
     });
